@@ -1,7 +1,7 @@
 let numero;
 let divCartas;
 let cartas =[];
-let desenhos = ['bobrosparrot.gif','explodyparrot.gif','fiestaparrot.gif', 'metalparrot.gif','revertirparrot.gif','triplets.parrot.gif','unicornparrot.gif']
+let desenhos = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif', 'metalparrot.gif','revertitparrot.gif','tripletsparrot.gif','unicornparrot.gif']
 
 //pergunta quantas cartas quer jogar
 function quantasCartas(){
@@ -43,4 +43,5 @@ function virarCarta(cartaClicada){
     while (cartaClicada != divCartas.children[contador]){
         contador ++;
     }
+    cartaClicada.innerHTML = `<img class="frente"src="./imagens/${cartas[contador]}" alt="">`
 }
