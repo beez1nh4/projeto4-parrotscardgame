@@ -25,6 +25,14 @@ body{
     justify-content: center;
     align-items: center;
     margin-bottom: 34px;
+    position: relative;
+    z-index: 0;
+}
+.imagem{
+    position: absolute;
+    top: 24px;
+    left: 10px;
+    z-index: -1;
 }
 
 .frente{
@@ -42,14 +50,17 @@ body{
     justify-content: space-around;
     flex-wrap: wrap;
 }
-.verso{
-    width: 117px;
-    height: 146px;
-    border: 1px solid #99CEA8;
-    border-radius: 5px;
-    background-color: #A7E9AF;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 34px;
+.virada{
+    transition: transform 500ms linear;
+    transform: rotateY(180deg);
+}
+.naovira{
+    transform: rotateY(-180deg);
+}
+.carta:active {
+    transition: transform 500ms linear;
+    transform: rotateY(180deg);
+}
+.carta:active .frente{
+    transform: rotateY(-180deg);
 }

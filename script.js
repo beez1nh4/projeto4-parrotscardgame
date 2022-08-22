@@ -2,6 +2,11 @@ let numero;
 let divCartas;
 let cartas =[];
 let desenhos = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif', 'metalparrot.gif','revertitparrot.gif','tripletsparrot.gif','unicornparrot.gif']
+let comparadorDesenhos = [];
+let paresFormados = 0;
+
+// contador de cartas viradas
+let qtdeCartasViradas = 0;
 
 //pergunta quantas cartas quer jogar
 function quantasCartas(){
@@ -37,11 +42,51 @@ function comparador() {
 	return Math.random() - 0.5; 
 }
 
+
+
 //mostrar o desenho quando clicar na carta
 function virarCarta(cartaClicada){
     let contador = 0;
     while (cartaClicada != divCartas.children[contador]){
         contador ++;
     }
-    cartaClicada.innerHTML = `<img class="frente"src="./imagens/${cartas[contador]}" alt="">`
+    
+    cartaClicada.innerHTML = `<img class="frente" src="./imagens/${cartas[contador]}" alt="">`
+    comparadorDesenhos.push(cartaClicada);
+
+    qtdeCartasViradas ++;
+    if (qtdeCartasViradas%2 ==0){
+        verificarPar();
+    }
+}
+
+//funcao que vira a carta em si
+function virada(carta){
+    carta.classList.add('virada');
+    let imagemDaCarta = carta.children[0];
+    imagemDaCarta.classList.add('naovira');
+}
+
+// quando o contador de cartas viradas for igual a 2, duas opções
+function verificarPar(){
+    if (comparadorDesenhos[qtdeCartasViradas-1].innerHTML !== comparadorDesenhos[qtdeCartasViradas-2].innerHTML){
+        console.log('oi')
+        comparadorDesenhos[qtdeCartasViradas-2].innerHTML = `<img class="frente" src="./imagens/front.png" alt="">`
+        comparadorDesenhos[qtdeCartasViradas-1].innerHTML = `<img class="frente" src="./imagens/front.png" alt="">`
+    } else{
+        paresFormados ++;
+    }
+    setTimeout(ganhou,100)
+}
+
+function viraDiferentes(){
+    console.log(comparadorDesenhos[qtdeCartasViradas-1])
+    virada(comparadorDesenhos[qtdeCartasViradas-2])
+    virada(comparadorDesenhos[qtdeCartasViradas-1])
+}
+
+function ganhou(){
+    if (paresFormados ===  numero/2){
+        alert(`Você ganhou em ${qtdeCartasViradas} jogadas!`)
+    }
 }
