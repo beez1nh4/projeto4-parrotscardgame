@@ -1,12 +1,15 @@
+//para resolver o problema de virar mais de uma carta por vez, foram colocadas condições que esperam a carta fazer a "jogada" completa
+
 let numero;
 let divCartas;
 let cartas =[];
 let desenhos = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif', 'metalparrot.gif','revertitparrot.gif','tripletsparrot.gif','unicornparrot.gif']
 let comparadorDesenhos = [];
 let paresFormados = 0;
-let verificacao = 0;
+
 //para corrigir bug
 let doido = true;
+let verificacao = true;
 
 // contador de cartas viradas
 let qtdeCartasViradas = 0;
@@ -49,7 +52,8 @@ function comparador() {
 
 //mostrar o desenho quando clicar na carta
 function virarCarta(cartaClicada){
-    if (doido == true && cartaClicada.classList.contains('formouPar')== false && verificacao < 1){
+    if (doido == true && cartaClicada.classList.contains('formouPar')== false && verificacao == true){
+    verificacao = false;
     let contador = 0;
     while (cartaClicada != divCartas.children[contador]){
         contador ++;
@@ -62,40 +66,34 @@ function virarCarta(cartaClicada){
         setTimeout(remover,801);
         comparadorDesenhos.push(cartaClicada);
         qtdeCartasViradas = 1;
-        verificacao++;
+        
     }
     
-    if(cartaClicada != comparadorDesenhos[qtdeCartasViradas-1] || qtdeCartasViradas%2 ==0){
+    if(cartaClicada != comparadorDesenhos[qtdeCartasViradas-1] && comparadorDesenhos.length != 0|| qtdeCartasViradas%2 ==0 && comparadorDesenhos.length != 0){
         doido = false;
         
         virada(cartaClicada);
         setTimeout(remover,801);
         qtdeCartasViradas ++;
         comparadorDesenhos.push(cartaClicada);
-        verificacao++;        
+               
         if (qtdeCartasViradas%2 ==0){
             doido = false;
             setTimeout(verificarPar,1000)
         } 
         } 
     }
-    console.log(verificacao)
 
-    if (verificacao >=1){
-        setTimeout(aguarde,1000)
-        console.log("oii")
-
-    }
+    
     }
         
-function aguarde(){
-    verificacao =0;   
-}
+
 //funcao que vira a carta em si
 function virada(carta){
     carta.classList.add('virada');
     let imagemDaCarta = carta.children[0];
     imagemDaCarta.classList.add('naovira');
+    verificacao = true;
 }
 
 //remove a classe virada e naovira
@@ -103,6 +101,7 @@ function remove(carta){
     carta.classList.remove('virada');
     let imagemDaCarta = carta.children[0];
     imagemDaCarta.classList.remove('naovira');
+    verificacao = true;
 }
 
 // quando o contador de cartas viradas for par, duas opções
