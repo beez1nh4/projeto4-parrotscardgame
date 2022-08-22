@@ -4,6 +4,7 @@ let cartas =[];
 let desenhos = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif', 'metalparrot.gif','revertitparrot.gif','tripletsparrot.gif','unicornparrot.gif']
 let comparadorDesenhos = [];
 let paresFormados = 0;
+let verificacao = 0;
 //para corrigir bug
 let doido = true;
 
@@ -48,7 +49,7 @@ function comparador() {
 
 //mostrar o desenho quando clicar na carta
 function virarCarta(cartaClicada){
-    if (doido == true && cartaClicada.classList.contains('formouPar')== false){
+    if (doido == true && cartaClicada.classList.contains('formouPar')== false && verificacao < 1){
     let contador = 0;
     while (cartaClicada != divCartas.children[contador]){
         contador ++;
@@ -61,26 +62,35 @@ function virarCarta(cartaClicada){
         setTimeout(remover,801);
         comparadorDesenhos.push(cartaClicada);
         qtdeCartasViradas = 1;
+        verificacao++;
     }
     
-    if(cartaClicada !== comparadorDesenhos[qtdeCartasViradas-1] || qtdeCartasViradas%2 ==0){
+    if(cartaClicada != comparadorDesenhos[qtdeCartasViradas-1] || qtdeCartasViradas%2 ==0){
         doido = false;
         
         virada(cartaClicada);
         setTimeout(remover,801);
         qtdeCartasViradas ++;
         comparadorDesenhos.push(cartaClicada);
-        
-
+        verificacao++;        
         if (qtdeCartasViradas%2 ==0){
             doido = false;
             setTimeout(verificarPar,1000)
         } 
         } 
     }
+    console.log(verificacao)
+
+    if (verificacao >=1){
+        setTimeout(aguarde,1000)
+        console.log("oii")
+
+    }
     }
         
-
+function aguarde(){
+    verificacao =0;   
+}
 //funcao que vira a carta em si
 function virada(carta){
     carta.classList.add('virada');
@@ -108,7 +118,7 @@ function verificarPar(){
         comparadorDesenhos[qtdeCartasViradas-1].classList.add('formouPar');
     }
     setTimeout(ganhou,10);
-    setTimeout(verdade,502);
+    setTimeout(verdade,800);
 }
 
 function viraDiferentes(){
