@@ -4,6 +4,7 @@ let cartas =[];
 let desenhos = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif', 'metalparrot.gif','revertitparrot.gif','tripletsparrot.gif','unicornparrot.gif']
 let comparadorDesenhos = [];
 let paresFormados = 0;
+//para corrigir bug
 let doido = true;
 
 // contador de cartas viradas
@@ -47,7 +48,6 @@ function comparador() {
 
 //mostrar o desenho quando clicar na carta
 function virarCarta(cartaClicada){
-    cartaClicada.classList.add('clique');
     if (doido == true && cartaClicada.classList.contains('formouPar')== false){
     let contador = 0;
     while (cartaClicada != divCartas.children[contador]){
@@ -55,24 +55,29 @@ function virarCarta(cartaClicada){
     }
             
     cartaClicada.innerHTML = `<img class="frente" src="./imagens/${cartas[contador]}" alt="">`
-            
-    if(cartaClicada !== comparadorDesenhos[qtdeCartasViradas-1]){
+    if (comparadorDesenhos.length == 0){
+        doido = false;
         virada(cartaClicada);
-        setTimeout(remover,501);
+        setTimeout(remover,801);
+        comparadorDesenhos.push(cartaClicada);
+        qtdeCartasViradas = 1;
+    }
+    
+    if(cartaClicada !== comparadorDesenhos[qtdeCartasViradas-1] || qtdeCartasViradas%2 ==0){
+        doido = false;
         
+        virada(cartaClicada);
+        setTimeout(remover,801);
+        qtdeCartasViradas ++;
         comparadorDesenhos.push(cartaClicada);
         
-        qtdeCartasViradas ++;
+
         if (qtdeCartasViradas%2 ==0){
             doido = false;
             setTimeout(verificarPar,1000)
-        } if (comparadorDesenhos.length == 0){
-            comparadorDesenhos.push(cartaClicada);
-            qtdeCartasViradas = 1;
-        }
-        }
+        } 
+        } 
     }
-    cartaClicada.classList.remove('clique');
     }
         
 
@@ -103,7 +108,7 @@ function verificarPar(){
         comparadorDesenhos[qtdeCartasViradas-1].classList.add('formouPar');
     }
     setTimeout(ganhou,10);
-    doido = true;
+    setTimeout(verdade,502);
 }
 
 function viraDiferentes(){
@@ -112,13 +117,17 @@ function viraDiferentes(){
 }
 function remover(){
     remove(comparadorDesenhos[qtdeCartasViradas-1]);
+    doido = true;
+    
 }
 
 function removeClasse(){
     remove(comparadorDesenhos[qtdeCartasViradas-2]);
     remove(comparadorDesenhos[qtdeCartasViradas-1]);
 }
-
+function verdade(){
+    doido = true;
+}
 
 function ganhou(){
     if (paresFormados ===  numero/2){
