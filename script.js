@@ -93,7 +93,6 @@ function virada(carta){
     carta.classList.add('virada');
     let imagemDaCarta = carta.children[0];
     imagemDaCarta.classList.add('naovira');
-    verificacao = true;
 }
 
 //remove a classe virada e naovira
