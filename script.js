@@ -4,6 +4,7 @@ let cartas =[];
 let desenhos = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif', 'metalparrot.gif','revertitparrot.gif','tripletsparrot.gif','unicornparrot.gif']
 let comparadorDesenhos = [];
 let paresFormados = 0;
+let doido = true;
 
 // contador de cartas viradas
 let qtdeCartasViradas = 0;
@@ -46,26 +47,32 @@ function comparador() {
 
 //mostrar o desenho quando clicar na carta
 function virarCarta(cartaClicada){
-    virada(cartaClicada);
-    setTimeout(remover,501);
-        let contador = 0;
-        while (cartaClicada != divCartas.children[contador]){
-            contador ++;
-        }
+    cartaClicada.classList.add('clique');
+    if (doido == true && cartaClicada.classList.contains('formouPar')== false){
+    let contador = 0;
+    while (cartaClicada != divCartas.children[contador]){
+        contador ++;
+    }
+            
+    cartaClicada.innerHTML = `<img class="frente" src="./imagens/${cartas[contador]}" alt="">`
+            
+    if(cartaClicada !== comparadorDesenhos[qtdeCartasViradas-1]){
+        virada(cartaClicada);
+        setTimeout(remover,501);
         
-        cartaClicada.innerHTML = `<img class="frente" src="./imagens/${cartas[contador]}" alt="">`
+        comparadorDesenhos.push(cartaClicada);
         
-        if(cartaClicada !== comparadorDesenhos[qtdeCartasViradas-1]){
+        qtdeCartasViradas ++;
+        if (qtdeCartasViradas%2 ==0){
+            doido = false;
+            setTimeout(verificarPar,1000)
+        } if (comparadorDesenhos.length == 0){
             comparadorDesenhos.push(cartaClicada);
-    
-            qtdeCartasViradas ++;
-            if (qtdeCartasViradas%2 ==0){
-                setTimeout(verificarPar,1000)
-            } if (comparadorDesenhos.length == 0){
-                comparadorDesenhos.push(cartaClicada);
-                qtdeCartasViradas = 1;
-            }
+            qtdeCartasViradas = 1;
         }
+        }
+    }
+    cartaClicada.classList.remove('clique');
     }
         
 
@@ -92,21 +99,24 @@ function verificarPar(){
         setTimeout(removeClasse,501)
     } else{
         paresFormados ++;
+        comparadorDesenhos[qtdeCartasViradas-2].classList.add('formouPar');
+        comparadorDesenhos[qtdeCartasViradas-1].classList.add('formouPar');
     }
-    setTimeout(ganhou,10)
+    setTimeout(ganhou,10);
+    doido = true;
 }
 
 function viraDiferentes(){
-    virada(comparadorDesenhos[qtdeCartasViradas-2])
-    virada(comparadorDesenhos[qtdeCartasViradas-1])
+    virada(comparadorDesenhos[qtdeCartasViradas-2]);
+    virada(comparadorDesenhos[qtdeCartasViradas-1]);
 }
 function remover(){
-    remove(comparadorDesenhos[qtdeCartasViradas-1])
+    remove(comparadorDesenhos[qtdeCartasViradas-1]);
 }
 
 function removeClasse(){
-    remove(comparadorDesenhos[qtdeCartasViradas-2])
-    remove(comparadorDesenhos[qtdeCartasViradas-1])
+    remove(comparadorDesenhos[qtdeCartasViradas-2]);
+    remove(comparadorDesenhos[qtdeCartasViradas-1]);
 }
 
 
