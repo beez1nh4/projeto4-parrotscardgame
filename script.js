@@ -6,6 +6,7 @@ let cartas =[];
 let desenhos = ['bobrossparrot.gif','explodyparrot.gif','fiestaparrot.gif', 'metalparrot.gif','revertitparrot.gif','tripletsparrot.gif','unicornparrot.gif']
 let comparadorDesenhos = [];
 let paresFormados = 0;
+let cartasPraCima = 0;
 
 //para corrigir bug
 let doido = true;
@@ -52,7 +53,8 @@ function comparador() {
 
 //mostrar o desenho quando clicar na carta
 function virarCarta(cartaClicada){
-    if (doido == true && cartaClicada.classList.contains('formouPar')== false && verificacao == true){
+    cartasPraCima ++;
+    if (cartasPraCima%2 != 0 && doido == true && cartaClicada.classList.contains('formouPar')== false && verificacao == true){
     verificacao = false;
     let contador = 0;
     while (cartaClicada != divCartas.children[contador]){
