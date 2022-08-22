@@ -57,10 +57,3 @@ body{
 .naovira{
     transform: rotateY(-180deg);
 }
-.carta:active {
-    transition: transform 500ms linear;
-    transform: rotateY(180deg);
-}
-.carta:active .frente{
-    transform: rotateY(-180deg);
-}

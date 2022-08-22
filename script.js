@@ -46,19 +46,28 @@ function comparador() {
 
 //mostrar o desenho quando clicar na carta
 function virarCarta(cartaClicada){
-    let contador = 0;
-    while (cartaClicada != divCartas.children[contador]){
-        contador ++;
-    }
+    virada(cartaClicada);
+    setTimeout(remover,501);
+        let contador = 0;
+        while (cartaClicada != divCartas.children[contador]){
+            contador ++;
+        }
+        
+        cartaClicada.innerHTML = `<img class="frente" src="./imagens/${cartas[contador]}" alt="">`
+        
+        if(cartaClicada !== comparadorDesenhos[qtdeCartasViradas-1]){
+            comparadorDesenhos.push(cartaClicada);
     
-    cartaClicada.innerHTML = `<img class="frente" src="./imagens/${cartas[contador]}" alt="">`
-    comparadorDesenhos.push(cartaClicada);
-
-    qtdeCartasViradas ++;
-    if (qtdeCartasViradas%2 ==0){
-        verificarPar();
+            qtdeCartasViradas ++;
+            if (qtdeCartasViradas%2 ==0){
+                setTimeout(verificarPar,1000)
+            } if (comparadorDesenhos.length == 0){
+                comparadorDesenhos.push(cartaClicada);
+                qtdeCartasViradas = 1;
+            }
+        }
     }
-}
+        
 
 //funcao que vira a carta em si
 function virada(carta){
@@ -67,23 +76,39 @@ function virada(carta){
     imagemDaCarta.classList.add('naovira');
 }
 
-// quando o contador de cartas viradas for igual a 2, duas opções
+//remove a classe virada e naovira
+function remove(carta){
+    carta.classList.remove('virada');
+    let imagemDaCarta = carta.children[0];
+    imagemDaCarta.classList.remove('naovira');
+}
+
+// quando o contador de cartas viradas for par, duas opções
 function verificarPar(){
     if (comparadorDesenhos[qtdeCartasViradas-1].innerHTML !== comparadorDesenhos[qtdeCartasViradas-2].innerHTML){
-        console.log('oi')
         comparadorDesenhos[qtdeCartasViradas-2].innerHTML = `<img class="frente" src="./imagens/front.png" alt="">`
         comparadorDesenhos[qtdeCartasViradas-1].innerHTML = `<img class="frente" src="./imagens/front.png" alt="">`
+        viraDiferentes()
+        setTimeout(removeClasse,501)
     } else{
         paresFormados ++;
     }
-    setTimeout(ganhou,100)
+    setTimeout(ganhou,10)
 }
 
 function viraDiferentes(){
-    console.log(comparadorDesenhos[qtdeCartasViradas-1])
     virada(comparadorDesenhos[qtdeCartasViradas-2])
     virada(comparadorDesenhos[qtdeCartasViradas-1])
 }
+function remover(){
+    remove(comparadorDesenhos[qtdeCartasViradas-1])
+}
+
+function removeClasse(){
+    remove(comparadorDesenhos[qtdeCartasViradas-2])
+    remove(comparadorDesenhos[qtdeCartasViradas-1])
+}
+
 
 function ganhou(){
     if (paresFormados ===  numero/2){
